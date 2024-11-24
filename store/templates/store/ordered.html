@@ -1,0 +1,106 @@
+{% extends 'Dashboard/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style type="text/css">
+	.form-group{
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+</style>
+
+<h1 class="mt-4">Print Product Receipt</h1>
+<!-- Breadcrumbs -->
+<nav aria-label="Page breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'store:dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="#store">Store</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'store:products' %}">Product</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Order Product</li>
+    </ol>
+</nav>
+<hr>
+
+<div class="row">
+	<form method="POST" id="order_product" data-products-url="{% url 'store:load_product' %}">
+		{% csrf_token %}
+		<div class="container">
+			<div class="row ">
+				<div class="col-md-3">
+
+				</div>
+				{% if ordered %}
+				<div class="col-md-6 bg-white p-3">
+					{% include 'store/includes/messages.html' %}
+
+						<div class="header ">
+							<div class="row">
+								<div class="col-md-12" style="text-align:center">
+									<h2 style="text-align:center;">MyStore</h2>
+									<h5>Onibuku Atan Ota Ogun State</h5>
+									<hr>
+
+								</div>
+								<div class="justify-content-between d-flex">
+									<p><b>Date Ordered:</b> {{ordered.at_ordered}}</p>
+									<p><b>Order Id:</b> {{ordered.pk}}</p>
+
+								</div>
+									
+								
+							</div>
+
+							<div class="row">
+								<div class="col-md-12" style="text-align:center">
+									<table class="table table-bordered" style="text-align:left" >
+										{% for order in ordered.items.all %}
+										<tr>
+											<td><b>Product Name:</b></td>
+											<td>{{order.product.name}}</td>
+										</tr>
+										<tr >
+											<td><b>Product Description:</b></td>
+											<td>{{order.product.description}}</td>	
+										</tr>
+										<tr >
+											<td><b>Product Collection:</b></td>
+											<td>{{order.collection}}</td>	
+										</tr>
+										<tr >
+											<td><b>Product Price:</b></td>
+											<td>N{{order.price}}</td>	
+										</tr>
+										<tr >
+											<td><b>Product Quantity:</b></td>
+											<td>{{order.quantity}}</td>	
+										</tr>
+										<tr >
+											<td><b>Total:</b></td>
+											<td>N{{order.total_price}}</td>	
+										</tr>
+										{% endfor %}
+									</table>
+								</div>
+								<center><a href="">View/Print Receipt</a></center>
+							</div>
+						</div>
+				</div>
+				{% endif %}
+				
+						
+				<div class="col-md-3 ">
+					
+
+				</div>
+				
+
+			</div>
+		</div>
+
+	</form>
+</div>
+
+
+
+{% endblock content %}

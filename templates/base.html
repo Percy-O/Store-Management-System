@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MyStore</title>
+
+        <!-- Rendering BootStrap -->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+        <!-- Rendering Font Awesome Icons  -->
+        <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.css' %}">
+    
+        <style type="text/css">
+            @font-face{
+                font-family: HeadingNowTrial;
+                src: url('{% static "fonts/fonts/HeadingNowTrial-63Book.ttf" %}');
+            }
+            body{
+                font-family: HeadingNowTrial;
+            }
+
+
+        </style>
+    </head>
+
+    <body style="background-color: #f2f2f2;">
+
+        <!-- Header -->
+        <header>
+			{% block header_content%}
+
+			{% endblock %}
+        </header>
+        <!-- End of Header -->
+
+        <!-- Body -->
+        <section>
+            <div class="content_container">
+                {% block content%}
+
+                {% endblock %}
+            </div>
+        </section>
+        <!-- End of Body -->
+
+        <!-- Footer -->
+        <footer>
+
+        </footer>
+        <!-- End of Footer -->
+
+        <!-- Rendering Bootstrap Script -->
+        <script src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    </body>
+
+</html>

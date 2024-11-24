@@ -1,0 +1,83 @@
+{% extends 'Dashboard/base.html' %}
+
+
+
+{% block content %}
+<h1 class="mt-4">Dashboard</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Dashboard</li>
+</ol>
+<!-- Display Content -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body justify-content-between align-items-center d-flex">
+            	<div>Collections</div>
+            	<span class="bg-white badge badge-pill text-dark">{{collections.all.count}}</span>
+        	</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="{% url 'store:collection' %}">View Details</a>
+                <div class="small text-white"><i class="fa fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body justify-content-between align-items-center d-flex">
+            	<div>Products</div>
+            	<span class="bg-white badge badge-pill text-dark">{{products.all.count}}</span>
+        	</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="{% url 'store:products' %}">View Details</a>
+                <div class="small text-white"><i class="fa fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-body justify-content-between align-items-center d-flex">
+            	<div>Completed Orders</div>
+            	<span class="bg-white badge badge-pill text-dark">{{completed_orders.all.count}}</span>
+        	</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="{% url 'store:orders' %}?completed={{complete}}">View Details</a>
+                <div class="small text-white"><i class="fa fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body justify-content-between align-items-center d-flex">
+                <div>Pending Orders</div>
+                <span class="bg-white badge badge-pill text-dark">{{pending_orders.all.count}}</span>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="{% url 'store:orders' %}?pending={{pend}}">View Details</a>
+                <div class="small text-white"><i class="fa fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area me-1"></i>
+                Area Chart 
+            </div>
+            <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Bar Chart 
+            </div>
+            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+</div>
+<a href="{% url 'store:receipt' %}">Receipt</a>
+
+{% endblock content %}

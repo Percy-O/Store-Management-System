@@ -1,0 +1,80 @@
+{% extends 'Dashboard/base.html' %}
+
+
+{% load crispy_forms_tags %}
+{% block content %}
+<h1 class="mt-4">Edit Account</h1>
+<!-- Breadcrumbs -->
+<nav aria-label="Page breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'store:dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="#store">Store</a></li>
+        <li class="breadcrumb-item"><a href="#account">Account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Account</li>
+    </ol>
+</nav>
+<hr>
+
+<div class="row">
+    {% include 'store/includes/messages.html' %}
+    <div class="col-md-12">
+        <form class="" action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="first_name">First Name*</label>
+                        <input type="text" name="first_name" id="first_name" value="{{request.user.first_name}}" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="last_name">Last Name*</label>
+                        <input type="text" name="last_name" id="last_name" value="{{request.user.last_name}}" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username*</label>
+                <input type="text" name="username" id="username" value="{{request.user.username}}" class="form-control">
+            </div>
+
+             <div class="form-group">
+                <label for="email">Email*</label>
+                <input type="email" name="email" id="email" value="{{request.user.email}}" class="form-control">
+            </div>
+
+            <div class="form-group">
+                {{staff_form.phone_number|as_crispy_field}}
+            </div>
+            <div class="form-group">
+<!--                 <label for="gender">Gender</label>
+                <select name="gender" class="form-control">
+                    {% for gender in staff.gender %}
+                    <option value="{{gender}}">{{gender}}</option>
+                    {% endfor %}
+                </select> -->
+                {{staff_form.gender|as_crispy_field}}
+            </div>
+
+            <div class="form-group">
+                {{staff_form.user_type|as_crispy_field}}
+
+            </div>
+
+            <div class="form-group">
+                {{staff_form.shop_name|as_crispy_field}}
+
+            </div>
+
+            <button class="btn btn-dark mt-3">Update Your Account</button>
+
+
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

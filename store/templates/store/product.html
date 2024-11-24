@@ -1,0 +1,79 @@
+{% extends 'Dashboard/base.html' %}
+
+
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h1 class="mt-4">Add Product</h1>
+<!-- Breadcrumbs -->
+<nav aria-label="Page breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'store:dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="#">Store</a></li>
+        <li class="breadcrumb-item"><a href="#">Product</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+    </ol>
+</nav>
+<hr>
+
+<div class="row">
+	<div class="col-md-3 ">
+		<!-- <form class="" action="{% url 'store:collection' %}">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="collection">Collection</label>
+				<input type="text" name="collection" class="form-control">
+				<button class="btn btn-dark my-3">Save Collection</button>
+			</div>
+		</form> -->
+	</div>
+	<div class="col-md-6 bg-white p-4 my-3">
+
+		{% include 'store/includes/messages.html' %}
+		<form class="form" action="" method="POST" >
+			{% csrf_token %}
+
+			<div class="form-group">
+				{{form.name|as_crispy_field}}
+			</div>
+
+			<div class="form-group">
+				{{form.description|as_crispy_field}}
+			</div>
+
+			<div class="form-group">
+				<label for="collection">Product Collection*</label>
+				<input type="text" name="collection" id="collection" class="form-control" list="collection-list" value="{% if verify == 'update' %} {{collection}} {% endif %}" required>
+				<datalist id="collection-list">
+					<select>
+						{% for collection in collections %}
+							<option value="{{collection.title}}">{{collection.title}}</option>
+						{% endfor %}
+					</select>
+				</datalist>
+				<small class="text-secondary">Add to the collection or check the list of collection that your product fall into</small>
+			</div>
+
+			<div class="form-group">
+				{{form.price|as_crispy_field}}
+			</div>
+
+			<div class="form-group">
+				{{form.quantity|as_crispy_field}}
+			</div>
+
+			<!-- {{form|crispy}} -->
+			{% if verify != 'update' %}
+				<button class="btn btn-dark my-3">Save Product</button>
+			{% else %}
+				<button class="btn btn-dark my-3">Update Product</button>
+			{% endif %}
+		</form>
+	</div>
+	<div class="col-md-3"></div>
+
+
+</div>
+
+{% endblock content %}

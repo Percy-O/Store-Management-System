@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+	/*body{
+		background-image: url('{% static "images/student.jpg" %}');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+		transition: 0.1sec;
+		height: 600px;
+	}
+	.register{
+		opacity: 0.9;
+	}*/
+
+
+</style>
+<div class="background">
+	<div class="container">
+		<div class="row mb-3" style="margin-top:40px">
+		    <div class="col-md-2"></div>
+		    <div class="col-md-8 bg-dark register" style="border-radius:10px">
+		        <center>
+		            <h2 class="text-white pt-2">Register</h2>
+		            <small class='text-white pb-2 '>MyStore</small>
+		        </center>
+		        
+		        <div class="row bg-white py-3">
+		            <div class="col-md-12">
+					{% include 'includes/messages.html' %}
+		                <form action="" method="post" enctype="multipart/form-data" >
+		                   {% csrf_token %}
+		                   <div class="row">
+			                   	<div class='col-md-6'>
+			                   		<div class="form-group">
+				                    {{form.first_name|as_crispy_field}}
+				                    <small id="helpId" class="text-muted">Your First Name</small>
+				                  </div>
+
+				                  <div class="form-group">
+				                    {{form.last_name|as_crispy_field}}
+				                    <small id="helpId" class="text-muted">Your Last Name</small>
+				                  </div>
+
+				                  <div class="form-group">
+				                    {{form.username|as_crispy_field}}
+				                    <small id="helpId" class="text-muted">Enter Your Desired Username</small>
+				                  </div>
+
+				                  <div class="form-group">
+				                    {{form.email|as_crispy_field}}
+				                    <small id="helpId" class="text-muted">Enter Your Email Address</small>
+				                  </div>
+
+			                   	</div>
+			                   	<div class='col-md-6'>
+
+				                  <div class="form-group">
+				                    {{form.password1|as_crispy_field}}
+				                    <small id="helpId" class="text-muted">Enter Your Password</small>
+				                  </div>
+
+				                  <div class="form-group">
+				                    {{form.password2|as_crispy_field}}
+				                    <small id="helpId" class="text-muted">Confirm Your Password</small>
+				                  </div>
+				              </div>
+
+					       </div>
+			               <button type="submit" class="btn btn-dark btn-block"><i class="fa fa-user" aria-hidden="true"></i> Register</button> 
+
+			               <hr>
+							<center>
+								<small class="text-center"> If registered 
+									<a href="{% url 'accounts:login' %}" class="btn-link">Login</a>
+								</small>
+							</center>
+			                </div>
+		                   
+		                 	
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="col-md-2"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}

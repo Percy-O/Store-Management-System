@@ -1,0 +1,36 @@
+{% extends 'Dashboard/base.html' %}
+
+{% load crispy_forms_tags%}
+{% block content %}
+
+<div class="container  mt-5 bg-white p-4 rounded">
+    <div class="row d-flex align-items-center">
+        <div class="col-md-8">
+            <h2 class="h5">Are you aure you want to delete <b>"{{obj}}"</b></h2>
+        </div>
+        <div class="col">
+		{% if cancel == 'collection' %}
+            <a href="{% url 'collection' %}" class="btn btn-primary">Cancel</a>
+		{% elif cancel == 'level' %}
+			<a href="{% url 'level' %}" class="btn btn-primary">Cancel</a>
+		{% elif cancel == 'semester' %}
+			<a href="{% url 'semester' %}" class="btn btn-primary">Cancel</a>
+		{% elif cancel == 'student' %}
+			<a href="{% url 'student' %}" class="btn btn-primary">Cancel</a>
+		{% endif %}
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger btn-sm" ><i class="fa fa-trash-o" aria-hidden="true"></i> Confirm Delete</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}

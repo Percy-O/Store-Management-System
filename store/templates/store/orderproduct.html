@@ -1,0 +1,205 @@
+{% extends 'Dashboard/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style type="text/css">
+	.form-group{
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+</style>
+
+<h1 class="mt-4">Order Product</h1>
+<!-- Breadcrumbs -->
+<nav aria-label="Page breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'store:dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="#store">Store</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'store:products' %}">Product</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Order Product</li>
+    </ol>
+</nav>
+<hr>
+
+<div class="row">
+	<form method="POST" id="order_product" data-products-url="{% url 'store:load_product' %}">
+		{% csrf_token %}
+		<div class="container">
+			<div class="row ">
+				<div class="col-md-5 bg-white p-4">
+					{% include 'store/includes/messages.html' %}
+					<div class="form-group">
+						{{form.collection|as_crispy_field}}
+					</div>
+
+					<div class="form-group">
+						{{form.product|as_crispy_field}}
+					</div>
+
+					<div class="form-group">
+						{{form.price|as_crispy_field}}
+						<input type="text" name="" id="price1" class="form-control" value="{% if verify == 'update' %} {{form.instance.price}} {% endif %}" readonly>
+
+					</div>
+
+					<div class="form-group">
+						{{form.quantity|as_crispy_field}}
+					</div>
+
+
+					<div class="form-group" >
+						{{form.total_price|as_crispy_field}}
+						<p style="font-weight: bolder;" name="total_price">Total: <i id=total>{% if verify == 'update' %} {{form.instance.total_price}} {% endif %}</i> </p>
+					</div>
+
+					<button class="btn btn-dark mt-3" type="submit">{% if verify == 'update' %} Update Product {% else %} Order Product {% endif %}</button>
+
+				</div>
+
+				<div class="col-md-2">
+
+				</div>
+				{% if ordered.exists %}
+						
+				<div class="col-md-5 bg-white p-3">
+					{% for order in ordered %}
+						<div class="header ">
+							<div class="row">
+								<div class="col-md-12" style="text-align:center">
+									<h2 style="text-align:center;">MyStore</h2>
+									<h5>Onibuku Atan Ota Ogun State</h5>
+									<hr>
+
+								</div>
+								<div class="justify-content-between d-flex">
+									<p><b>Date Ordered:</b> {{order.at_ordered}}</p>
+									<p><b>Order Id:</b> {{order.pk}}</p>
+
+								</div>
+									
+								
+							</div>
+
+							<div class="row">
+								<div class="col-md-12" style="text-align:center">
+									<table class="table table-bordered" style="text-align:left" >
+										<tr>
+											<td><b>Product Name:</b></td>
+											<td>{{order.product.name}}</td>
+										</tr>
+										<tr >
+											<td><b>Product Description:</b></td>
+											<td>{{order.product.description}}</td>	
+										</tr>
+										<tr >
+											<td><b>Product Collection:</b></td>
+											<td>{{order.collection}}</td>	
+										</tr>
+										<tr >
+											<td><b>Product Price:</b></td>
+											<td>N{{order.price}}</td>	
+										</tr>
+										<tr >
+											<td><b>Product Quantity:</b></td>
+											<td>{{order.quantity}}</td>	
+										</tr>
+										<tr >
+											<td><b>Total:</b></td>
+											<td>N{{order.total_price}}</td>	
+										</tr>
+									</table>
+								</div>
+								<center><a href="">View/Print Receipt</a></center>
+							</div>
+						</div>
+					{% endfor %}
+
+				</div>
+				{% endif %}
+
+			</div>
+		</div>
+
+	</form>
+</div>
+
+
+	<!-- Jquery Plugin Api -->
+    <script src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+    <!-- <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script> -->
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+
+<script>
+
+	$("#id_collection").change(function (){
+
+		const url = $("#order_product").attr("data-products-url"); // Getting the load cites url
+		const collectionid= $(this).val(); // Get the selected collection id from the html input
+		
+		$.ajax({
+			url: url,
+			data: {
+				'collection_id':collectionid,  // add the collection id to the GET parameters
+				'product_id':$("#id_product").val()
+			},
+			success: function (data){  // `data` is the return of the `load_product` view function
+				
+				// replace the contents of the product input with the data that came from the server
+				
+				$("#id_product").html(data)
+
+				// let html_data = '<option value="">--------</option>'
+
+				// data.forEach(function (product) {
+
+				// 	html_data += `<option value="${product.id}">${product.name}</option>`
+				// });
+
+				// $("#id_product").html(html_data)
+			}
+		});
+
+	});
+
+	$("#id_product").change(function (){
+
+		const url = "{% url 'store:load_price' %}"; // Getting the load cites url
+		const productid= $(this).val(); // Get the selected collection id from the html input
+		
+		$.ajax({
+			url: url,
+			data: {
+				'product_id':productid // add the collection id to the GET parameters
+			},
+			success: function (data){  // `data` is the return of the `load_product` view function
+				
+				// replace the contents of the product input with the data that came from the server
+				
+				// $("#id_product").html(data)
+
+				let html_data =''  
+
+				data.forEach(function (price) {
+
+					html_data += `${price.price}`
+				});
+
+				$("#price").val(html_data)
+				$("#price1").val(html_data )
+			}
+		});
+
+	});
+
+	$('#quantity').on('change',function(){
+		var total = $('#price').val() * this.value
+		$('#total').html(total)
+		$('#total_price').val(total)
+	})
+	
+</script>
+
+
+{% endblock content %}
